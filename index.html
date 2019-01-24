@@ -37,7 +37,7 @@
 
       <h3>Expression</h3>
 
-      <input id="xpathExpression" type="text">
+      <input id="xpathExpression" type="text" value="//" disabled>
 
       <h3>Résultat</h3>
 
@@ -49,26 +49,45 @@
 
   <script>
 
+  $(document).ready(function() {
+
+    //Focus du champ code source pour une saisie plus simple
+    $("#codeXml").focus();
+
+  });
+
+    //Inspection rapide
     $("#codeXml").on("keyup change paste", function() {
 
       var xmlTextValue = $("#codeXml").val();
 
-      const parser = new DOMParser();
-      const xmldoc = parser.parseFromString(xmlTextValue, 'text/xml');
+      if($.trim(xmlTextValue) != '') {
 
-      var racine = xmldoc.documentElement;
-      var racineName = racine.tagName;
+        const parser = new DOMParser();
+        const xmldoc = parser.parseFromString(xmlTextValue, 'text/xml');
 
-      var children = racine.children;
-      var childrenLength = children.length;
-      var childrenName = children[0].tagName;
+        var racine = xmldoc.documentElement;
+        var racineName = racine.tagName;
 
-      $("#racineName").html(racineName);
-      $("#childrenNumber").html(childrenLength);
-      $("#childrenName").html(childrenName);
+        var children = racine.children;
+        var childrenLength = children.length;
+        var childrenName = children[0].tagName;
+
+        $("#racineName").html(racineName);
+        $("#childrenNumber").html(childrenLength);
+        $("#childrenName").html(childrenName);
+
+        $("#xpathExpression").prop('disabled', false);
+
+      } else {
+
+        $("#xpathExpression").prop('disabled', true);
+
+      }
 
     });
 
+    //Gestion des expressions XPath
     $("#xpathExpression").on("keyup change paste", function() {
 
       var xmlTextValue = $("#codeXml").val();
@@ -89,13 +108,16 @@
 
           var str = new XMLSerializer().serializeToString(node);
 
-          $("#xpathResult").val($("#xpathResult").val() + '\n' + str);
+          $("#xpathResult").val($("#xpathResult").val() + '\n\n' + str);
 
           node = nodes.iterateNext();
 
         }
 
+        //$("textarea").height( $("textarea")[0].scrollHeight);
+
       } catch (e) {
+
 
 
       }
