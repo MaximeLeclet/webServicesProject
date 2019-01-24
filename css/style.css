@@ -1,0 +1,13 @@
+body {
+  /* background-color: grey; */
+}
+
+.center {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+
+.valeur {
+  background-color: grey;
+}

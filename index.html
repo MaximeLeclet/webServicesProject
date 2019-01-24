@@ -1,0 +1,58 @@
+<html>
+
+  <head>
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/jquery-3.3.1.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <div class="center">
+
+      <h1>XPath - JS</h1>
+
+      <hr>
+
+      <h2>Document XML</h2>
+
+      <h3>Code source</h3>
+
+      <textarea id="codeXml" rows="8" cols="80"></textarea>
+
+      <h3>Inspection rapide</h3>
+
+      <p>Le document traite de <span id="racineName" class="valeur">&nbsp;</span>.</p>
+
+      <p>Il contient <span id="childrenNumber" class="valeur">&nbsp;</span> <span id="childrenName" class="valeur">&nbsp;</span>.</p>
+
+    </div>
+
+  </body>
+
+  <script>
+
+    $("#codeXml").on("keyup change paste", function() {
+
+      var xmlTextValue = $("#codeXml").val();
+
+      const parser = new DOMParser();
+      const xmldoc = parser.parseFromString(xmlTextValue, 'text/xml');
+
+      var racine = xmldoc.documentElement;
+      var racineName = racine.tagName;
+
+      var children = racine.children;
+      var childrenLength = children.length;
+      var childrenName = children[0].tagName;
+
+      $("#racineName").html(racineName);
+      $("#childrenNumber").html(childrenLength);
+      $("#childrenName").html(childrenName);
+
+    });
+
+  </script>
+
+</html>
